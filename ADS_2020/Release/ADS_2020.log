@@ -1,0 +1,60 @@
+﻿Сборка начата 05.12.2020 3:05:55.
+     1>Проект "C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\ADS_2020.vcxproj" в узле 2 (целевые объекты Build).
+     1>InitializeBuildStatus:
+         Создание "Release\ADS_2020.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.22.27905\bin\HostX86\x86\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"Release\ADS_2020.pch" /Fo"Release\\" /Fd"Release\vc142.pdb" /Gd /TP /analyze- /FC /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.22.27905\bin\HostX86\x86\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:column /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"Release\ADS_2020.pch" /Fo"Release\\" /Fd"Release\vc142.pdb" /Gd /TP /analyze- /FC /errorReport:prompt Error.cpp FST.cpp Generation.cpp GraibachRules.cpp In.cpp IT.cpp LexAnalize.cpp Log.cpp LT.cpp MFST.cpp Parm.cpp ADS_2020.cpp PN.cpp
+         Error.cpp
+         FST.cpp
+         Generation.cpp
+         GraibachRules.cpp
+         In.cpp
+         IT.cpp
+         LexAnalize.cpp
+         Log.cpp
+         LT.cpp
+         MFST.cpp
+     1>C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\FST.cpp(66,59): warning C4018:  <: несоответствие типов со знаком и без знака
+         Parm.cpp
+         ADS_2020.cpp
+         PN.cpp
+     1>C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\MFST.cpp(219,68): warning C4267:  =: преобразование из "size_t" в "short"; возможна потеря данных
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.22.27905\bin\HostX86\x86\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\Release\ADS_2020.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FULL /PDB:"C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\Release\ADS_2020.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\Release\ADS_2020.lib" /MACHINE:X86 /SAFESEH Release\Error.obj
+         Release\FST.obj
+         Release\Generation.obj
+         Release\GraibachRules.obj
+         Release\In.obj
+         Release\IT.obj
+         Release\LexAnalize.obj
+         Release\Log.obj
+         Release\LT.obj
+         Release\MFST.obj
+         Release\Parm.obj
+         Release\ADS_2020.obj
+         Release\PN.obj
+         Release\stdafx.obj
+         Создание кода
+         492 of 499 functions (98.6%) were compiled, the rest were copied from previous compilation.
+           4 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
+         Создание кода завершено
+         ADS_2020.vcxproj -> C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\Release\ADS_2020.exe
+       FinalizeBuildStatus:
+         Файл "Release\ADS_2020.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "Release\ADS_2020.tlog\ADS_2020.lastbuildstate".
+     1>Сборка проекта "C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\ADS_2020.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+       "C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\ADS_2020.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект ClCompile) -> 
+         C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\FST.cpp(66,59): warning C4018:  <: несоответствие типов со знаком и без знака
+         C:\Users\gopst\OneDrive\Документы\универ\КУРСОВОЙ ЯП\ADS_2020\ADS_2020\MFST.cpp(219,68): warning C4267:  =: преобразование из "size_t" в "short"; возможна потеря данных
+
+    Предупреждений: 2
+    Ошибок: 0
+
+Прошло времени 00:00:05.20

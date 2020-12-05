@@ -1,0 +1,41 @@
+short function MyFun(short a, short b)
+{
+declare short c;
+c = a/b;
+return c;
+}
+
+string function Back(string str)
+{
+declare string me;
+me = str;
+return me;
+}
+
+main
+{
+UserLib;
+declare short x;
+declare short y;
+
+x = 2;
+y = 12;
+
+declare short result;
+result = MyFun(x,y);
+output(result);
+
+declare string space;
+space = ' ';
+
+declare string phrase;
+phrase = 'Compiler';
+
+space = Back(phrase);
+output(space);
+
+declare short zap;
+
+zap = 3*(5-2)/0+3/6;
+output(zap);
+}
