@@ -6,17 +6,26 @@ namespace LA
 	Graph graph[N_GRAPHS] = 
 	{
 		{ LEX_SEPARATORS, FST::FST(GRAPH_SEPARATORS) },
+		{ LEX_EQUAL, FST::FST(GRAPH_EQUAL) },
+		{ LEX_LESS, FST::FST(GRAPH_LESS) },
+		{ LEX_MORE, FST::FST(GRAPH_MORE) },
+		{ LEX_LEFTSQUAREBRACE, FST::FST(GRAPH_LEFTSQUAREBRACE) },
+		{ LEX_RIGTHSQUAREBRACE, FST::FST(GRAPH_RIGHTSQUAREBRACE) },
 		{ LEX_DECLARE, FST::FST(GRAPH_DECLARE) },
 		{ LEX_LITERAL, FST::FST(GRAPH_NUMBER_LITERAL) },
 		{ LEX_LITERAL, FST::FST(GRAPH_STRING_LITERAL) },
 		{ LEX_FUNCTION, FST::FST(GRAPH_FUNCTION) },
 		{ LEX_RETURN, FST::FST(GRAPH_RETURN) },
 		{ LEX_OUTPUT, FST::FST(GRAPH_OUTPUT) },
+		{ LEX_MODULE, FST::FST(GRAPH_MODULE) },
 		{ LEX_MAIN, FST::FST(GRAPH_MAIN) },
-		{ LEX_LIB, FST::FST(GRAPH_EMatLib) },
+		{ LEX_LIB, FST::FST(GRAPH_USERLIB) },
 		{ LEX_DIRSLASH, FST::FST(GRAPH_FORWARD_SLASH) },
 		{ LEX_ROOT, FST::FST(GRAPH_ROOT) },
 		{ LEX_POWER, FST::FST(GRAPH_POWER) },
+		{ LEX_RANDOM, FST::FST(GRAPH_RANDOM) },
+		{ LEX_CONCAT, FST::FST(GRAPH_CONCAT) },
+		{ LEX_WHILE, FST::FST(GRAPH_WHILE) },
 		{ LEX_ID_TYPE_I, FST::FST(GRAPH_INT) },
 		{ LEX_ID_TYPE_S, FST::FST(GRAPH_STRING) },
 		{ LEX_ID, FST::FST(GRAPH_ID) },
@@ -89,7 +98,20 @@ namespace LA
 						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[0] = 'n';
 						break;
 					}
+					case LEX_RANDOM:
+					{
+						MyFunc++;
 
+						IT::Entry entryit("rand", i, IT::INT, IT::S);
+						IT::Add(Tables.IDtable, entryit);
+						LT::Entry entrylt(graph[j].lexema, InStruct.words[i].line, IT::IsId(Tables.IDtable, InStruct.words[i].word));
+
+						LT::Add(Tables.Lextable, entrylt);
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].count_parm = 2;
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[0] = 'n';
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[1] = 'n';
+						break;
+					}
 					case LEX_POWER:
 					{
 						MyFunc++;
@@ -103,7 +125,20 @@ namespace LA
 						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[1] = 'n';
 						break;
 					}
+					case LEX_CONCAT:
+					{
+						MyFunc++;
 
+						IT::Entry entryit("conc", i, IT::STR, IT::S);
+						IT::Add(Tables.IDtable, entryit);
+						LT::Entry entrylt(graph[j].lexema, InStruct.words[i].line, IT::IsId(Tables.IDtable, InStruct.words[i].word));
+
+						LT::Add(Tables.Lextable, entrylt);
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].count_parm = 1;
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[0] = 's';
+						
+						break;
+					}
 					case LEX_ID:
 					{
 						if (Tables.Lextable.table[i - 1].lexema != LEX_FUNCTION && IT::IsId(Tables.IDtable, InStruct.words[i].word) == -1)
@@ -233,7 +268,7 @@ namespace LA
 					}
 					case LEX_LITERAL:
 					{
-						if (Tables.Lextable.table[i - 1].lexema == LEX_EQUAL) // проверим предыдущие лексемы
+						if (Tables.Lextable.table[i - 1].lexema == LEX_ASSIGN) // проверим предыдущие лексемы
 						{
 							
 							IT::Entry entryit(LTRL, i, graph[j].graph.type, IT::L);
@@ -290,14 +325,15 @@ namespace LA
 
 						}
 						case LEX_PLUS:
-						case LEX_EQUAL:
+						case LEX_ASSIGN:
 						case LEX_STAR:
 						case LEX_MINUS:
 						case LEX_DIRSLASH:
+						case LEX_MODULE:
 						{
 							
 							if (Tables.Lextable.table[i - 1].lexema != LEX_ID && Tables.Lextable.table[i - 1].lexema != LEX_RIGHTTHESIS && Tables.Lextable.table[i - 1].lexema != LEX_LEFTTHESIS && Tables.Lextable.table[i - 1].lexema != LEX_LITERAL)
-							{ //если прошлым символом был не ID, не скобки, не литерал
+							{   //если прошлым символом был не ID, не скобки, не литерал
 								Log::writeError(log.stream, Error::GetError(56, InStruct.words[i].line, NULL)); //два знака операции подряд
 								flag1 = true;                           
 							}
@@ -343,10 +379,10 @@ namespace LA
 		if (!MainBody)
 		{
 			flag1 = true;
-			Log::writeError(log.stream, Error::GetError(83)); 
+			throw ERROR_THROW(83);
 		}
 		if (LibBody == 0 && MyFunc>0)
-			Log::writeError(log.stream, Error::GetError(88)); 
+			throw ERROR_THROW(88);
 	
 
 		if (flag1 == false && flag2 == false)
@@ -358,23 +394,23 @@ namespace LA
 					if (Tables.IDtable.table[Tables.Lextable.table[i].idxTI].idtype == IT::F) //если после функции нет открывающейся скобки
 					{
 						if (Tables.Lextable.table[i + 1].lexema != LEX_LEFTTHESIS)
-							Log::writeError(log.stream, Error::GetError(95, InStruct.words[i + 1].line, NULL));
+							throw ERROR_THROW(95);
 					}
 				}
 
 				if (Tables.Lextable.table[i].lexema == LEX_STAR || Tables.Lextable.table[i].lexema == LEX_DIRSLASH || Tables.Lextable.table[i].lexema == LEX_MINUS || Tables.Lextable.table[i].lexema == LEX_PLUS)
-				{//если вокруг знаков операций что-то помимо ID,литерала и скобок
+				{   //если вокруг знаков операций что-то помимо ID,литерала и скобок
 					if (Tables.Lextable.table[i - 1].lexema != LEX_ID && Tables.Lextable.table[i - 1].lexema != LEX_LEFTTHESIS && Tables.Lextable.table[i - 1].lexema != LEX_RIGHTTHESIS && Tables.Lextable.table[i - 1].lexema != LEX_LITERAL)
 						Log::writeError(log.stream, Error::GetError(605, InStruct.words[i + 1].line, NULL)); //ошибка в построении выражения
 					if (Tables.Lextable.table[i + 1].lexema != LEX_ID && Tables.Lextable.table[i + 1].lexema != LEX_LEFTTHESIS && Tables.Lextable.table[i + 1].lexema != LEX_RIGHTTHESIS && Tables.Lextable.table[i + 1].lexema != LEX_LITERAL)
 						Log::writeError(log.stream, Error::GetError(605, InStruct.words[i + 1].line, NULL)); //ошибка в построении выражения
 				}
-				if (Tables.Lextable.table[i].lexema == LEX_EQUAL) //проверка типов в выражении после знака =
+				if (Tables.Lextable.table[i].lexema == LEX_ASSIGN) //проверка типов в выражении после знака =
 				{
 					bool mainFunctionFlag = false;
 					int pos = i+1;
 					idType = Tables.IDtable.table[Tables.Lextable.table[i - 1].idxTI].iddatatype; //тип переменной до =
-					if ((Tables.Lextable.table[pos].lexema == LEX_ID && Tables.IDtable.table[Tables.Lextable.table[pos].idxTI].idtype == IT::F) || ((Tables.Lextable.table[pos].lexema == LEX_POWER || Tables.Lextable.table[pos].lexema == LEX_ROOT)&& Tables.IDtable.table[Tables.Lextable.table[pos].idxTI].idtype == IT::S))
+					if ((Tables.Lextable.table[pos].lexema == LEX_ID && Tables.IDtable.table[Tables.Lextable.table[pos].idxTI].idtype == IT::F) || ((Tables.Lextable.table[pos].lexema == LEX_POWER || Tables.Lextable.table[pos].lexema == LEX_RANDOM)&& Tables.IDtable.table[Tables.Lextable.table[pos].idxTI].idtype == IT::S))
 						mainFunctionFlag = true; //чтобы проверка несоответствия типов не распространялась на вызов функции в main
 					while (Tables.Lextable.table[pos].lexema != LEX_SEPARATOR)
 					{
@@ -382,10 +418,10 @@ namespace LA
 							Log::writeError(log.stream, Error::GetError(90, InStruct.words[i].line, NULL));//если переменная строкового типа и мы пытаемся делать с ней какие-то операции
 
 						if (Tables.Lextable.table[pos].lexema == LEX_DIRSLASH && Tables.Lextable.table[pos + 1].lexema == LEX_LITERAL && Tables.IDtable.table[Tables.Lextable.table[pos + 1].idxTI].value.vNUM == 0)
-							Log::writeError(log.stream, Error::GetError(87, InStruct.words[pos+1].line, NULL)); //попытка разделить на 0
+							Log::writeError(log.stream, Error::GetError(87, InStruct.words[pos+1].line+1, NULL)); //попытка разделить на 0
 
 						if ((Tables.Lextable.table[pos].lexema == LEX_ID || Tables.Lextable.table[pos].lexema == LEX_LITERAL) && Tables.IDtable.table[Tables.Lextable.table[pos].idxTI].iddatatype != idType && mainFunctionFlag == false)
-							Log::writeError(log.stream, Error::GetError(85, InStruct.words[pos].line, NULL)); //несоответствие типов в выражении (если перед и после знаков не скобочки)
+							Log::writeError(log.stream, Error::GetError(85, InStruct.words[pos].line+1, NULL)); //несоответствие типов в выражении (если перед и после знаков не скобочки)
 						pos++;
 					}
 					mainFunctionFlag = false;
@@ -400,7 +436,7 @@ namespace LA
 
 				if (FlagForMain == true)
 				{
-					if ((Tables.Lextable.table[i].lexema == LEX_ID && Tables.IDtable.table[Tables.Lextable.table[i].idxTI].idtype == IT::F) || ((Tables.Lextable.table[i].lexema == LEX_POWER || Tables.Lextable.table[i].lexema == LEX_ROOT) && Tables.IDtable.table[Tables.Lextable.table[i].idxTI].idtype == IT::S))
+					if ((Tables.Lextable.table[i].lexema == LEX_ID && Tables.IDtable.table[Tables.Lextable.table[i].idxTI].idtype == IT::F) || ((Tables.Lextable.table[i].lexema == LEX_POWER || Tables.Lextable.table[i].lexema == LEX_ROOT || Tables.Lextable.table[i].lexema == LEX_RANDOM) && Tables.IDtable.table[Tables.Lextable.table[i].idxTI].idtype == IT::S))
 					{	
 							int param = 0;
 
