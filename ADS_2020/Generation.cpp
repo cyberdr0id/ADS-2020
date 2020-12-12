@@ -12,7 +12,10 @@ void Generation(LT::LexTable &Lextable, IT::IdTable & IDtable, In::Words *words)
 		case LEX_STAR:
 		case LEX_MINUS:
 		case LEX_DIRSLASH:
-		case LEX_EQUAL:
+		case LEX_ASSIGN:
+		case LEX_LESS:
+		case LEX_MORE:
+		case LEX_MODULE:
 		{
 			fout << " " << Lextable.table[i].lexema << " ";
 			break;
@@ -21,6 +24,17 @@ void Generation(LT::LexTable &Lextable, IT::IdTable & IDtable, In::Words *words)
 		case SPACE:
 		{
 			fout << Lextable.table[i].lexema << " ";
+			break;
+		}
+
+		case LEX_LEFTSQUAREBRACE:
+		{
+			fout << "\n{\n";
+			break;
+		}
+		case LEX_RIGTHSQUAREBRACE:
+		{
+			fout << "}\n";
 			break;
 		}
 
@@ -33,7 +47,7 @@ void Generation(LT::LexTable &Lextable, IT::IdTable & IDtable, In::Words *words)
 		case LEX_LEFTBRACE:
 		{
 
-			fout << endl << Lextable.table[i].lexema << endl;
+			fout << std::endl << Lextable.table[i].lexema << endl;
 			break;
 		}
 		case LEX_BRACELET:
@@ -86,7 +100,7 @@ void Generation(LT::LexTable &Lextable, IT::IdTable & IDtable, In::Words *words)
 			fout << "document.write('U can use basic user libs')";
 			break;
 		}
-		/*case LEX_ROOT:
+		case LEX_ROOT:
 		{
 			fout << "Math.sqrt";
 			for (++i; Lextable.table[i].lexema != LEX_RIGHTTHESIS; i++)
@@ -101,7 +115,25 @@ void Generation(LT::LexTable &Lextable, IT::IdTable & IDtable, In::Words *words)
 				fout << words[i].word;
 			fout << words[i].word;
 			break;
-		}*/
+		}
+		case LEX_RANDOM:
+		{
+			//Math.random() * (max - min) + min
+			fout << "Math.floor(Math.random() * " << words[i+1].word << words[i+4].word << "-" << words[i + 2].word << words[i + 5].word << "+" << words[i + 2].word << words[i + 5].word;
+			i += 5;
+			break;
+		}
+		case LEX_CONCAT:
+		{
+			fout << words[i+2].word << ".concat(";
+			i += 3;
+			break;
+		}
+		case LEX_WHILE:
+		{
+			fout << "while";
+			break;
+		}
 		}
 	}
 	fout.close();
