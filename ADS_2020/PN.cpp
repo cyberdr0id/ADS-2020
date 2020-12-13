@@ -24,7 +24,7 @@ int PN::search(int index, LA::LEX *tables) //поиск выражения
 		{
 			for (; ; i--) //перебираем лексемы обратно
 			{
-				if (tables->Lextable.table[i].lexema == LEX_EQUAL || tables->Lextable.table[i].lexema == LEX_RIGHTTHESIS)
+				if (tables->Lextable.table[i].lexema == LEX_ASSIGN || tables->Lextable.table[i].lexema == LEX_RIGHTTHESIS)
 					return i + 1;
 			}
 		}

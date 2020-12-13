@@ -169,9 +169,12 @@ namespace MFST
 
 	char* Mfst::getCSt(char*buf)
 	{
+		MFSTSTSTACK temp = st;
 		for (int k = (signed)st.size() - 1; k >= 0; --k)
 		{
-			short p = st._Get_container()[k];
+			short p = temp.top();
+			temp.pop();
+
 			buf[st.size() - 1 - k] = GRB::Rule::Chain::alphabet_to_char(p);
 		};
 		buf[st.size()] = 0x00;
@@ -205,9 +208,15 @@ namespace MFST
 		*log.stream << "-------------------Дерево разбора---------------------- " << endl;
 		MfstState state;
 		GRB::Rule rule;
+
+		std::stack<MfstState> temp = storestate;
+
 		for (unsigned short k = 0; k < storestate.size(); k++)
 		{
-			state = storestate._Get_container()[k];
+
+			state = temp.top();
+			temp.pop();
+
 			rule = grebach.getRule(state.nrule);
 			MFST_TRACE7(log)
 		};
@@ -218,9 +227,13 @@ namespace MFST
 		GRB::Rule rule;
 		deducation.nrules = new short[deducation.size = storestate.size()];
 		deducation.nrulechains = new short[deducation.size];
+
+		std::stack<MfstState> temp = storestate;
+
 		for (unsigned short k = 0; k < storestate.size(); k++)
 		{
-			state = storestate._Get_container()[k];
+			state = temp.top();
+			temp.pop();
 			deducation.nrules[k] = state.nrule;
 			deducation.nrulechains[k] = state.nrulechain;
 		};

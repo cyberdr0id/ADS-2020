@@ -101,10 +101,10 @@
     <ClCompile Include="PN.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="GraibachRules.cpp">
+    <ClCompile Include="ADS_2020.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="ADS_2020.cpp">
+    <ClCompile Include="Greibach.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

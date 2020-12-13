@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-#define N_GRAPHS 15
+#define N_GRAPHS 22
 
 #define GRAPH_SEPARATORS 2,\
 	FST::NODE(13, FST::RELATION(';',1), FST::RELATION('=',1),\
@@ -14,11 +14,60 @@
 				  FST::RELATION('/',1)),\
 	FST::NODE()
 
+#define GRAPH_EQUAL FST::FST(2,\
+	FST::NODE(1, FST::RELATION('~', 1)),\
+	FST::NODE())
+
+#define GRAPH_LESS FST::FST(2,\
+	FST::NODE(1, FST::RELATION('>', 1)),\
+	FST::NODE())
+
+#define GRAPH_MODULE FST::FST(2,\
+	FST::NODE(1, FST::RELATION('%', 1)),\
+	FST::NODE())
+
+#define GRAPH_MORE FST::FST(2,\
+	FST::NODE(1, FST::RELATION('<', 1)),\
+	FST::NODE())
+
+#define GRAPH_LEFTSQUAREBRACE FST::FST(2,\
+	FST::NODE(1, FST::RELATION('[', 1)),\
+	FST::NODE())
+
+#define GRAPH_RIGHTSQUAREBRACE FST::FST(2,\
+	FST::NODE(1, FST::RELATION(']', 1)),\
+	FST::NODE())
+
+#define GRAPH_NOTEQUAL FST::FST(2,\
+	FST::NODE(1, FST::RELATION('!', 1)),\
+	FST::NODE())
+
+#define GRAPH_CYCLE 5, \
+	FST::NODE(1,FST::RELATION('l',1)),\
+	FST::NODE(1,FST::RELATION('o',2)),\
+	FST::NODE(1,FST::RELATION('o',3)),\
+	FST::NODE(1,FST::RELATION('p',4)),\
+	FST::NODE()
+
 #define GRAPH_ROOT 5, \
 	FST::NODE(1,FST::RELATION('r',1)),\
 	FST::NODE(1,FST::RELATION('o',2)),\
 	FST::NODE(1,FST::RELATION('o',3)),\
 	FST::NODE(1,FST::RELATION('t',4)),\
+	FST::NODE()
+
+#define GRAPH_RANDOM 5, \
+	FST::NODE(1,FST::RELATION('r',1)),\
+	FST::NODE(1,FST::RELATION('a',2)),\
+	FST::NODE(1,FST::RELATION('n',3)),\
+	FST::NODE(1,FST::RELATION('d',4)),\
+	FST::NODE()
+
+#define GRAPH_CONCAT 5, \
+	FST::NODE(1,FST::RELATION('c',1)),\
+	FST::NODE(1,FST::RELATION('o',2)),\
+	FST::NODE(1,FST::RELATION('n',3)),\
+	FST::NODE(1,FST::RELATION('c',4)),\
 	FST::NODE()
 
 

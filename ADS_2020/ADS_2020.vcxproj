@@ -159,7 +159,7 @@
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="FST.cpp" />
     <ClCompile Include="Generation.cpp" />
-    <ClCompile Include="GraibachRules.cpp" />
+    <ClCompile Include="Greibach.cpp" />
     <ClCompile Include="In.cpp" />
     <ClCompile Include="IT.cpp" />
     <ClCompile Include="LexAnalize.cpp" />

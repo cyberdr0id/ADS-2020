@@ -7,8 +7,13 @@ namespace LA
 	{
 		{ LEX_SEPARATORS, FST::FST(GRAPH_SEPARATORS) },
 		{ LEX_DECLARE, FST::FST(GRAPH_DECLARE) },
+		{ LEX_MODULE, FST::FST(GRAPH_MODULE) },
 		{ LEX_LITERAL, FST::FST(GRAPH_NUMBER_LITERAL) },
 		{ LEX_LITERAL, FST::FST(GRAPH_STRING_LITERAL) },
+		{ LEX_LESS, FST::FST(GRAPH_LESS) },
+		{ LEX_MORE, FST::FST(GRAPH_MORE) },
+		{ LEX_CYCLE, FST::FST(GRAPH_CYCLE) },
+		{ LEX_NOTEQUAL, FST::FST(GRAPH_NOTEQUAL) },
 		{ LEX_FUNCTION, FST::FST(GRAPH_FUNCTION) },
 		{ LEX_RETURN, FST::FST(GRAPH_RETURN) },
 		{ LEX_OUTPUT, FST::FST(GRAPH_OUTPUT) },
@@ -17,6 +22,8 @@ namespace LA
 		{ LEX_DIRSLASH, FST::FST(GRAPH_FORWARD_SLASH) },
 		{ LEX_ROOT, FST::FST(GRAPH_ROOT) },
 		{ LEX_POWER, FST::FST(GRAPH_POWER) },
+		{ LEX_RANDOM, FST::FST(GRAPH_RANDOM) },
+		{ LEX_CONCAT, FST::FST(GRAPH_CONCAT) },
 		{ LEX_ID_TYPE_I, FST::FST(GRAPH_INT) },
 		{ LEX_ID_TYPE_S, FST::FST(GRAPH_STRING) },
 		{ LEX_ID, FST::FST(GRAPH_ID) },
@@ -103,7 +110,31 @@ namespace LA
 						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[1] = 'n';
 						break;
 					}
+					case LEX_RANDOM:
+					{
+						MyFunc++;
+						IT::Entry entryit("rand", i, IT::INT, IT::S);
+						IT::Add(Tables.IDtable, entryit);
+						LT::Entry entrylt(graph[j].lexema, InStruct.words[i].line, IT::IsId(Tables.IDtable, InStruct.words[i].word));
 
+						LT::Add(Tables.Lextable, entrylt);
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].count_parm = 2;
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[0] = 'n';
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[1] = 'n';
+						break;
+					}
+					case LEX_CONCAT:
+					{
+						MyFunc++;
+						IT::Entry entryit("conc", i, IT::INT, IT::S);
+						IT::Add(Tables.IDtable, entryit);
+						LT::Entry entrylt(graph[j].lexema, InStruct.words[i].line, IT::IsId(Tables.IDtable, InStruct.words[i].word));
+
+						LT::Add(Tables.Lextable, entrylt);
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].count_parm = 1;
+						Tables.IDtable.table[Tables.Lextable.table[i].idxTI].parms[0] = 's';
+						break;
+					}
 					case LEX_ID:
 					{
 						if (Tables.Lextable.table[i - 1].lexema != LEX_FUNCTION && IT::IsId(Tables.IDtable, InStruct.words[i].word) == -1)
@@ -233,7 +264,7 @@ namespace LA
 					}
 					case LEX_LITERAL:
 					{
-						if (Tables.Lextable.table[i - 1].lexema == LEX_EQUAL) // проверим предыдущие лексемы
+						if (Tables.Lextable.table[i - 1].lexema == LEX_ASSIGN) // проверим предыдущие лексемы
 						{
 							
 							IT::Entry entryit(LTRL, i, graph[j].graph.type, IT::L);
@@ -290,7 +321,7 @@ namespace LA
 
 						}
 						case LEX_PLUS:
-						case LEX_EQUAL:
+						case LEX_ASSIGN:
 						case LEX_STAR:
 						case LEX_MINUS:
 						case LEX_DIRSLASH:
@@ -369,7 +400,7 @@ namespace LA
 					if (Tables.Lextable.table[i + 1].lexema != LEX_ID && Tables.Lextable.table[i + 1].lexema != LEX_LEFTTHESIS && Tables.Lextable.table[i + 1].lexema != LEX_RIGHTTHESIS && Tables.Lextable.table[i + 1].lexema != LEX_LITERAL)
 						Log::writeError(log.stream, Error::GetError(605, InStruct.words[i + 1].line, NULL)); //ошибка в построении выражения
 				}
-				if (Tables.Lextable.table[i].lexema == LEX_EQUAL) //проверка типов в выражении после знака =
+				if (Tables.Lextable.table[i].lexema == LEX_ASSIGN) //проверка типов в выражении после знака =
 				{
 					bool mainFunctionFlag = false;
 					int pos = i+1;

@@ -23,11 +23,24 @@
 #define	LEX_RIGHTTHESIS	 ')'			
 #define	LEX_PLUS		 '+'	
 #define	LEX_MINUS		 '-'
+#define	LEX_MODULE		 '%'
+#define	LEX_LESS		 '>'
+#define	LEX_MORE		 '<'
+#define	LEX_EQUAL		 '~'
+#define LEX_NOTEQUAL	 '!'
+#define	LEX_LEFTSQUAREBRACE		 '['
+#define	LEX_RIGHTSQUAREBRACE	 ']'
+#define LEX_CYCLE		 'w'
+
+
 #define LEX_ROOT		 'k'
 #define LEX_POWER		 'p'
+#define LEX_RANDOM		 'c'
+#define LEX_CONCAT		 'z'
+
 #define	LEX_STAR		 '*'			
 #define	LEX_DIRSLASH	 '/'			
-#define	LEX_EQUAL		 '='			
+#define	LEX_ASSIGN		 '='			
 #define	LEX_OPERATION	 'v'
 #define	INTEGER			 "int"		
 #define	STRING			 "string"
